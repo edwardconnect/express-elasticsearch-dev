@@ -17,7 +17,6 @@ services:
       - 59300:9300
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
-    # command: -etwork.host=0.0.0.0 -Ediscovery.type=single-node
     environment:
       - node.name=es
       - cluster.name=testing-cluster
@@ -25,25 +24,36 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     networks:
       - express-es-net
-  # es02:
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
-  #   container_name: es02
-  #   environment:
-  #     - node.name=es02
-  #     - discovery.seed_hosts=es01
-  #     - cluster.initial_master_nodes=es01,es02
-  #     - cluster.name=docker-cluster
-  #     - bootstrap.memory_lock=true
-  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  #   ulimits:
-  #     memlock:
-  #       soft: -1
-  #       hard: -1
+  mongo-service:
+    container_name: mongo-dev
+    image: mongo:4.1.10-bionic
+    restart: always
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example 
+    networks:
+      - express-es-net
+  admin-mongo-service:
+    container_name: admin-mongo-dev
+    image: mrvautin/adminmongo:latest
+    restart: always
+    environment:
+      - HOST=0.0.0.0
+      - PORT=1234
+    ports:
+      - 1234:1234
+    links:
+      - mongo-service
+    networks:
+      - express-es-net
+
 volumes:
   elasticsearch-data:
     driver: local
-  #   networks:
-  #     - esnet
 
 networks:
   express-es-net:
