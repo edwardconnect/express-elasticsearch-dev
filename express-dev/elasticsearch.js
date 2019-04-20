@@ -1,13 +1,13 @@
 const { Client } = require('@elastic/elasticsearch')
-const client = new Client({ node: 'http://localhost:9200', requestTimeout: 20000 })
+const client = new Client({ node: 'http://172.24.0.2:9200', requestTimeout: 20000 })
 
 client.search({
-    index: 'product'
+    index: 'blog'
 }, (err, result) => {
     if (err) 
         console.error(err)
     console.log(result)
-})
+});
 
 // client.indices.create({
 //     index: 'blog'
