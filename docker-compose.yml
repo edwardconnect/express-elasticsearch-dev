@@ -1,4 +1,4 @@
-version: "3"
+version: "2.2"
 services:
   express-service:
     container_name: express-dev
@@ -7,8 +7,8 @@ services:
       - "80:3000"
     volumes:
       - ./express-dev:/usr/src/app
-    # networks:
-    #   - esnet
+    networks:
+      - express-es-net
   elasticsearch-service:
     container_name: elasticsearch-dev
     image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
@@ -16,18 +16,15 @@ services:
       - 59200:9200
       - 59300:9300
     volumes:
-      - ../elasticsearch-data:/usr/share/elasticsearch/data
-    # command: -Enetwork.host=0.0.0.0 -Ediscovery.type=single-node
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    # command: -etwork.host=0.0.0.0 -Ediscovery.type=single-node
     environment:
       - node.name=es
-      - http.host=0.0.0.0
-      - transport.host=0.0.0.0
-      - network.host=0.0.0.0
       - cluster.name=testing-cluster
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    # networks:
-    #   - esnet
+    networks:
+      - express-es-net
   # es02:
   #   image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
   #   container_name: es02
@@ -42,11 +39,12 @@ services:
   #     memlock:
   #       soft: -1
   #       hard: -1
-  #   volumes:
-  #     - esdata02:/usr/share/elasticsearch/data
+volumes:
+  elasticsearch-data:
+    driver: local
   #   networks:
   #     - esnet
 
-# networks:
-#   esnet:
-#     driver: bridge
+networks:
+  express-es-net:
+    driver: bridge
