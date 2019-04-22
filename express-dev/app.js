@@ -6,7 +6,6 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
 var app = express();
 
 // view engine setup
@@ -37,17 +36,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// client.ping({
-//     // ping usually has a 3000ms timeout
-//     requestTimeout: 10000
-//   }, function (error) {
-//     if (error) {
-//       console.log(error);
-//       console.trace('elasticsearch cluster is down!');
-//     } else {
-//       console.log('All is well');
-//     }
-//   });
 
 module.exports = app;
