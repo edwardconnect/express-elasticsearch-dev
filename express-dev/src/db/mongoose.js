@@ -1,6 +1,6 @@
-// import mongoose from 'mongoose';
-// mongoose.connect('mongodb://localhost:27017', {useNewUrlParser: true});
+import mongoose from 'mongoose';
+mongoose.connect("mongodb://mongo-service:27017/express", {useNewUrlParser: true});
 
-// const db = mongoose.connection;
+const mongooseClient = mongoose.connection;
 
-console.log('connection')
+module.exports = mongooseClient;

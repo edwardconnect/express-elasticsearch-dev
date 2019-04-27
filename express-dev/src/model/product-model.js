@@ -1,6 +1,7 @@
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
+import { model } from 'mongoose';
 
-const Product = mongoose.model('Product', {
+export const Product = model('Product', {
     name: {
         type: String
     },
@@ -11,5 +12,3 @@ const Product = mongoose.model('Product', {
         type: [String]
     }
 })
-
-module.exports = Product;
