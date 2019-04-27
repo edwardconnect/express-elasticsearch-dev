@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 var productRouter = require('./routes/product')
 var app = express();
 
-import { initialiseProductIndex } from "./src/db/elasticsearch";
+import { initialiseIndices } from "./src/db/elasticsearch";
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,6 +41,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-initialiseProductIndex();
+initialiseIndices();
 
 module.exports = app;
