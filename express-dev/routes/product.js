@@ -6,6 +6,9 @@ import { ProductSearchRepository } from "../src/db/elasticsearch-repository/prod
 const router = express.Router();
 const productSearchRepository = new ProductSearchRepository();
 
+/**
+ * POST /product - Create product
+ */
 router.post('/', async (req, res, next) => {
     console.log('REST request to create product')
     console.log(JSON.stringify(req.body), undefined, 2);
@@ -13,55 +16,43 @@ router.post('/', async (req, res, next) => {
     const product = new Product(req.body);
     try {
         const mongoResult = await product.save();
-        const elasticResult = await productSearchRepository.addProductDocument(mongoResult);
-        res.send(mongoResult);
+        await productSearchRepository.addProductDocument(mongoResult);
+
+        res.send(mongoResult).statusCode(201);
     } catch(error) {
-        next(error);
+        res.status(400).send(error);
     }
 })
 
-router.get('/elasticsearch', (req, res, next) => {
+/**
+ * GET /product/elasticsearch - Search products by query string
+ */
+router.get('/', async (req, res, next) => {
     console.log('REST request to get product');
-    const queryName = req.query.name;
+    const queryString = req.query.queryString;
 
-    if (queryName === undefined) {
-        next('Request param "name" not found');
-    } 
+    // if (queryString === undefined) {
+    //     next('Request param "name" not found');
+    // } 
 
     try {
-        const result = await productSearchRepository.findProductByName(queryName);
-        res.send(result);
+        let result;
+        if (queryString) {
+            result = await productSearchRepository.findProductByName(queryString);
+        } else {
+            result = await productSearchRepository.findAllProducts();
+        }
+        res.send(result.body.hits.hits);
     } catch(error) {
-        next(error)
+        res.status(400).send(error);
     }
 })
 
-// router.post('/', async (req, res, next) => {
-//     const product = new Product(req.body);
-//     try {
-//         const mongoProduct = await product.save();
-//         const elasticProduct = await saveProduct(mongoProduct);
-//         res.send();
-//     } catch (error) {
-//         console.log('Error!', error)
-//         next();
-//     }
-//     product.save()
-//         .then((savedProduct) => {
-//             console.log(savedProduct)
-//             res.send(savedProduct)
-//         })
-//         .catch(error => {
-//             console.log('Error', error)
-//         })
+// router.get('/', (req, res, next) => {
+//     console.log('REST request to get product');
+//     Product.find({}).then(products => {
+//         res.send(products);
+//     }).catch(error => console.log('Error', error));
 // })
-
-
-router.get('/', (req, res, next) => {
-    console.log('REST request to get product');
-    Product.find({}).then(products => {
-        res.send(products);
-    }).catch(error => console.log('Error', error));
-})
 
 module.exports = router

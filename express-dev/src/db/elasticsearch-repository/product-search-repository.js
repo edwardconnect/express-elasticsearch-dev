@@ -1,31 +1,25 @@
 import { esClient } from "../elasticsearch";
 
 export class ProductSearchRepository {
-    constructor() { }
-
-    indexName = 'product'
-
-    createProductIndex() {
-        return esClient.indices.create({
-            indexName
-        });
+    constructor() {
+        this.indexName = 'product'
     }
 
     addProductDocument(product) {
         return esClient.index({
-            index: indexName,
+            index: this.indexName,
             id: product.id,
             body: {
                 "name": product.name,
                 "description:": product.description,
                 "tags": product.tags
             }
-        })
+        });
     }
 
     findProductByName(name) {
         return esClient.search({
-            index: indexName,
+            index: this.indexName,
             body: {
                 query: {
                     match: {
@@ -33,6 +27,22 @@ export class ProductSearchRepository {
                     }
                 }
             }
+        })
+    }
+
+    findProductByQueryString(queryString) {
+        return esClient.search({
+            index: this.indexName,
+            body: {
+                
+            }
+        })
+    }
+
+    findAllProducts() {
+        return esClient.search({
+            index: this.indexName,
+            filterPath : ['hits.hits._source']
         })
     }
 }

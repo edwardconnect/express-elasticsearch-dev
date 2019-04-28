@@ -29,7 +29,7 @@ const isIndexExist = async(indexName) => {
 }
 
 export const initialiseIndices = async () => {
-    indexNames.forEach(indexName => {
+    for (let indexName of indexNames) {
         try {
             const isExistIndexName = await isIndexExist(indexName);
             if (isExistIndexName.body === false) {
@@ -42,7 +42,21 @@ export const initialiseIndices = async () => {
             console.error(`Fail to create index ${indexName}`);
             console.error(error)
         }
-    })
+    }
+    // indexNames.forEach(indexName => {
+    //     try {
+    //         const isExistIndexName = await isIndexExist(indexName);
+    //         if (isExistIndexName.body === false) {
+    //             await createIndex(indexName);
+    //             console.log(`Index ${indexName} is sucessfully created`);
+    //         } else {
+    //             console.log(`Index ${indexName} has been created before`);
+    //         }
+    //     } catch (error) {
+    //         console.error(`Fail to create index ${indexName}`);
+    //         console.error(error)
+    //     }
+    // })
 }
 
 // export const initialiseProductIndex = async () => {
