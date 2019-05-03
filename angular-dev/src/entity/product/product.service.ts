@@ -14,4 +14,8 @@ export class ProductService {
   getProduct(): Observable<HttpResponse<Product[]>> {
     return this.http.get<Product[]>(this.resourceUrl, { observe: 'response' });
   }
+
+  createProduct(product: Product): Observable<HttpResponse<Product>> {
+    return this.http.post<Product>(this.resourceUrl, product,{ observe: 'response' });
+  }
 }
