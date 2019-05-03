@@ -9,10 +9,12 @@ import { EntityModule } from 'src/entity/entity.module';
 
 import { SharedCommonModule } from 'src/shared/shared-common/shared-common.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from 'src/entity/navbar/navbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

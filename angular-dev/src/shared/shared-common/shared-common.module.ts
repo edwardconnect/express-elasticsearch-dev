@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatInputModule, MatButtonModule, MatCheckboxModule, MatChipsModule, MatRadioModule, MatSelectModule, MatSlideToggleModule, MatAutocompleteModule, MatTableModule, MatPaginatorModule, MatTabsModule, MatToolbarModule, MatSidenavModule, MatProgressBarModule, MatExpansionModule, MatTooltipModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule, MatStepperModule, MatMenuModule, MatSortModule, MatListModule } from '@angular/material';
+import { MatInputModule, MatButtonModule, MatCheckboxModule, MatChipsModule, MatRadioModule, MatSelectModule, MatSlideToggleModule, MatAutocompleteModule, MatTableModule, MatPaginatorModule, MatTabsModule, MatToolbarModule, MatSidenavModule, MatProgressBarModule, MatExpansionModule, MatTooltipModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule, MatStepperModule, MatMenuModule, MatSortModule, MatListModule, MatCardModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -39,7 +39,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     // Menu
     MatSortModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
   ]
 })
 export class SharedCommonModule { }
