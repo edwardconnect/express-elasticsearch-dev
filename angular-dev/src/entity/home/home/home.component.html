@@ -1,17 +1,28 @@
 <div class="container">
     <div class="row">
-        <div class="col text-center">
-            <h3>
-                Search product
+        <div class="col text-left">
+            <h3 class="font-weight-bold mt-2 mb-2">
+                Search products
             </h3>
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col-9">
             <mat-form-field class="w-100">
                 <mat-label>Search</mat-label>
                 <input matInput placeholder="Placeholder">
             </mat-form-field>
+        </div>
+        <div class="col text-center">
+            <button mat-raised-button color="primary" (click)="openDialog()">Create product</button>
+        </div>
+    </div>
+    <div *ngFor="let product of products" class="row mt-1 mb-1">
+        <div class="col">
+            <mat-card>
+                <h5 class="font-weight-bold">{{product?.name}}</h5>
+                <p>{{product?.description}}</p>
+            </mat-card>
         </div>
     </div>
 </div>
