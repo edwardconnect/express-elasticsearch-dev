@@ -17,9 +17,11 @@ router.post('/', async (req, res, next) => {
     try {
         const mongoResult = await product.save();
         await productSearchRepository.addProductDocument(mongoResult);
-
-        res.send(mongoResult).statusCode(201);
+        await productSearchRepository.refreshIndex();
+        console.log('Save all success')
+        res.status(201).send(mongoResult)
     } catch(error) {
+        console.log('Error', error)
         res.status(400).send(error);
     }
 })
@@ -31,10 +33,6 @@ router.get('/', async (req, res, next) => {
     console.log('REST request to get product');
     const queryString = req.query.queryString;
 
-    // if (queryString === undefined) {
-    //     next('Request param "name" not found');
-    // } 
-
     try {
         let result;
         if (queryString) {
@@ -42,17 +40,11 @@ router.get('/', async (req, res, next) => {
         } else {
             result = await productSearchRepository.findAllProducts();
         }
-        res.send(result.body.hits.hits);
+        console.log(result)
+        res.send(result.body.hits.hits.map(item => item._source));
     } catch(error) {
         res.status(400).send(error);
     }
 })
-
-// router.get('/', (req, res, next) => {
-//     console.log('REST request to get product');
-//     Product.find({}).then(products => {
-//         res.send(products);
-//     }).catch(error => console.log('Error', error));
-// })
 
 module.exports = router

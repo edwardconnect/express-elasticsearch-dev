@@ -2,7 +2,7 @@ import { esClient } from "../elasticsearch";
 
 export class ProductSearchRepository {
     constructor() {
-        this.indexName = 'product'
+        this.indexName = 'product';
     }
 
     addProductDocument(product) {
@@ -11,12 +11,18 @@ export class ProductSearchRepository {
             id: product.id,
             body: {
                 "name": product.name,
-                "description:": product.description,
+                "description": product.description,
                 "tags": product.tags
             }
         });
     }
 
+    refreshIndex() {
+        return esClient.indices.refresh({
+            index: 'product'
+        })
+    }
+    
     findProductByName(name) {
         return esClient.search({
             index: this.indexName,
@@ -27,7 +33,7 @@ export class ProductSearchRepository {
                     }
                 }
             }
-        })
+        });
     }
 
     findProductByQueryString(queryString) {
@@ -36,13 +42,13 @@ export class ProductSearchRepository {
             body: {
                 
             }
-        })
+        });
     }
 
     findAllProducts() {
         return esClient.search({
             index: this.indexName,
             filterPath : ['hits.hits._source']
-        })
+        });
     }
 }
