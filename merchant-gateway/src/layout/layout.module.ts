@@ -11,6 +11,9 @@ import { SharedCommonModule } from 'shared/shared-common/shared-common.module';
     CommonModule,
     SharedCommonModule
   ],
+  exports: [
+    NavbarComponent, SidenavComponent, MainComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LayoutModule { }
