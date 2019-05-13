@@ -36,7 +36,7 @@ export class ProductSearchRepository {
         });
     }
 
-    findProductByQueryString(queryString) {
+    searchProductMyQueryString(queryString) {
         return esClient.search({
             index: this.indexName,
             body: {
@@ -48,7 +48,7 @@ export class ProductSearchRepository {
     findAllProducts() {
         return esClient.search({
             index: this.indexName,
-            filterPath : ['hits.hits._source']
+            filterPath : ['hits.hits._source', 'hits.total']
         });
     }
 }

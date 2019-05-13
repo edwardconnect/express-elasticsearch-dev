@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
         await productSearchRepository.refreshIndex();
         console.log('Save all success')
         res.status(201).send(mongoResult)
-    } catch(error) {
+    } catch (error) {
         console.log('Error', error)
         res.status(400).send(error);
     }
@@ -36,13 +36,13 @@ router.get('/', async (req, res, next) => {
     try {
         let result;
         if (queryString) {
-            result = await productSearchRepository.findProductByName(queryString);
+            result = await productSearchRepository.searchProductMyQueryString(queryString);
         } else {
             result = await productSearchRepository.findAllProducts();
         }
-        console.log(result)
-        res.send(result.body.hits.hits.map(item => item._source));
-    } catch(error) {
+        res.header('x-total-count', result.body.hits.total.value)
+            .send(result.body.hits.hits.map(item => item._source));
+    } catch (error) {
         res.status(400).send(error);
     }
 })
