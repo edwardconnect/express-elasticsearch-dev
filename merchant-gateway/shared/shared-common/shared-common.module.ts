@@ -42,6 +42,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSortModule,
     MatListModule,
     MatCardModule,
+    FormsModule
   ]
 })
 export class SharedCommonModule { }
