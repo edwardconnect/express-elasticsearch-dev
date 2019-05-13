@@ -3,6 +3,7 @@ export class Commodity {
         public id?: string,
         public name?: string,
         public description?: string,
+        public tags?: string[],
         public isPublished?: boolean
     ) { }
 }

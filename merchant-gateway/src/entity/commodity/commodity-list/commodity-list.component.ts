@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { Commodity } from '../commodity.model';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator, MatDialog } from '@angular/material';
 import { merge, of, Subscription } from 'rxjs';
 import { startWith, switchMap, map, catchError } from 'rxjs/operators';
 import { CommodityService } from '../commodity.service';
+import { CommodityEditComponent } from '../commodity-edit/commodity-edit.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-commodity-list',
@@ -12,22 +14,25 @@ import { CommodityService } from '../commodity.service';
 })
 export class CommodityListComponent implements OnInit {
   commodities: Commodity[] = [];
+  searchFormControl = new FormControl()
 
   /* Table paginator */
   @ViewChild(MatPaginator) paginator: MatPaginator;
   pageSizeOptions = [10, 20, 30];
   length = 0;
+  updateTableEventEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private commodityService: CommodityService
+    private commodityService: CommodityService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
-    // this.updateTableView();
+    this.updateTableView();
   }
 
   private updateTableView() {
-    merge(this.paginator.page)
+    merge(this.paginator.page, this.updateTableEventEmitter)
       .pipe(
         startWith({}),
         switchMap(() => {
@@ -36,11 +41,14 @@ export class CommodityListComponent implements OnInit {
             page: this.paginator.pageIndex,
             size: currentPageSize,
           };
+          if (this.searchFormControl.value) {
+            searchReq['queryString'] = this.searchFormControl.value;
+          }
           return this.commodityService.getCommodities();
         }),
-        map(data => {
-          this.length = data.body['totalElements'];
-          return data.body['content'];
+        map(res => {
+          this.length = +res.headers.get('x-total-count');
+          return res.body;
         }),
         catchError(() => {
           return of([]);
@@ -49,5 +57,23 @@ export class CommodityListComponent implements OnInit {
       .subscribe((data: Commodity[]) => {
         this.commodities = data;
       });
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CommodityEditComponent, {
+      width: '450px',
+      minHeight: '510px'
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.commodityService.createCommodity(result).subscribe(res => {
+        console.log(res);
+      })
+    })
+  }
+
+  search() {
+    this.updateTableEventEmitter.emit();
   }
 }

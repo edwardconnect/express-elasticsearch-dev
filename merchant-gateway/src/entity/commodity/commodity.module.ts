@@ -4,6 +4,7 @@ import { CommodityListComponent } from './commodity-list/commodity-list.componen
 import { CommodityEditComponent } from './commodity-edit/commodity-edit.component';
 import { RouterModule } from '@angular/router';
 import { COMMODITY_ROUTES } from './commodity.route';
+import { SharedCommonModule } from 'shared/shared-common/shared-common.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,11 @@ import { COMMODITY_ROUTES } from './commodity.route';
   ],
   imports: [
     CommonModule,
+    SharedCommonModule,
     RouterModule.forChild([...COMMODITY_ROUTES])
+  ],
+  entryComponents: [
+    CommodityEditComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

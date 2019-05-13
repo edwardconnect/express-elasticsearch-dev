@@ -10,7 +10,12 @@ export class CommodityService {
   private resourceUrl = 'http://localhost:80/products'
   constructor(private http: HttpClient) { }
 
-  getCommodities(): Observable<HttpResponse<Commodity[]>> {
+  getCommodities(req): Observable<HttpResponse<Commodity[]>> {
+    
     return this.http.get<Commodity[]>(this.resourceUrl, {observe: 'response'})
+  }
+
+  createCommodity(commodity: Commodity): Observable<HttpResponse<Commodity>> {
+    return this.http.post<Commodity>(this.resourceUrl, commodity,{observe: 'response'});
   }
 }
