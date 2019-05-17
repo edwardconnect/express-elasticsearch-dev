@@ -22,7 +22,7 @@ export class ProductSearchRepository {
             index: 'product'
         })
     }
-    
+
     findProductByName(name) {
         return esClient.search({
             index: this.indexName,
@@ -36,19 +36,30 @@ export class ProductSearchRepository {
         });
     }
 
-    searchProductMyQueryString(queryString) {
+    searchProductMyQueryString(queryString, pageable) {
         return esClient.search({
             index: this.indexName,
             body: {
-                
+                from: pageable.page,
+                size: pageable.size,
+                query: {
+                    multi_match: {
+                        "query": queryString,
+                        "fields": ["name", "description", "tags"]
+                    }
+                }
             }
         });
     }
 
-    findAllProducts() {
+    findAllProducts(pageable) {
         return esClient.search({
             index: this.indexName,
-            filterPath : ['hits.hits._source', 'hits.total']
+            filterPath: ['hits.hits._source', 'hits.total'],
+            body: {
+                from: pageable.page,
+                size: pageable.size
+            }
         });
     }
 }

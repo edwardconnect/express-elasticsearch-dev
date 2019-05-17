@@ -32,13 +32,17 @@ router.post('/', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
     console.log('REST request to get product');
     const queryString = req.query.queryString;
+    const pageable = {
+        page: req.query.page,
+        size: req.query.size
+    }
 
     try {
         let result;
         if (queryString) {
-            result = await productSearchRepository.searchProductMyQueryString(queryString);
+            result = await productSearchRepository.searchProductMyQueryString(queryString, pageable);
         } else {
-            result = await productSearchRepository.findAllProducts();
+            result = await productSearchRepository.findAllProducts(pageable);
         }
         res.header('x-total-count', result.body.hits.total.value)
             .send(result.body.hits.hits.map(item => item._source));
