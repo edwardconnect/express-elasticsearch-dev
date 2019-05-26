@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { MatInputModule, MatButtonModule, MatCheckboxModule, MatChipsModule, MatRadioModule, MatSelectModule, MatSlideToggleModule, MatAutocompleteModule, MatTableModule, MatPaginatorModule, MatTabsModule, MatToolbarModule, MatSidenavModule, MatProgressBarModule, MatExpansionModule, MatTooltipModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule, MatStepperModule, MatMenuModule, MatSortModule, MatListModule, MatCardModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    FontAwesomeModule
   ],
   exports: [
     MatInputModule,
@@ -42,7 +44,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSortModule,
     MatListModule,
     MatCardModule,
-    FormsModule
+    FormsModule,
+    // Other modules
+    FontAwesomeModule
   ]
 })
 export class SharedCommonModule { }
