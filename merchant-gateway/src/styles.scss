@@ -1,3 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+html,
+body,
+app-root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Navbar */
+.navbar {
+  padding: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/* Content */
+.content {
+  padding-top: 64px;
+  height: 100%;
+}
