@@ -6,6 +6,8 @@ import { startWith, switchMap, map, catchError } from 'rxjs/operators';
 import { CommodityService } from '../commodity.service';
 import { CommodityEditComponent } from '../commodity-edit/commodity-edit.component';
 import { FormControl } from '@angular/forms';
+import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-commodity-list',
@@ -18,9 +20,14 @@ export class CommodityListComponent implements OnInit {
 
   /* Table paginator */
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  displayedColumns = ['name', 'description']
   pageSizeOptions = [10, 20, 30];
   length = 0;
   updateTableEventEmitter: EventEmitter<any> = new EventEmitter();
+
+  /* Font-awesome icons */
+  faSearch = faSearch;
+  faTimes = faTimes;
 
   constructor(
     private commodityService: CommodityService,
@@ -44,10 +51,11 @@ export class CommodityListComponent implements OnInit {
           if (this.searchFormControl.value) {
             searchReq['queryString'] = this.searchFormControl.value;
           }
-          return this.commodityService.getCommodities();
+          
+          return this.commodityService.getCommodities(searchReq);
         }),
         map(res => {
-          this.length = +res.headers.get('x-total-count');
+          this.length = +res.headers.get('X-total-count');
           return res.body;
         }),
         catchError(() => {
@@ -55,6 +63,7 @@ export class CommodityListComponent implements OnInit {
         })
       )
       .subscribe((data: Commodity[]) => {
+        console.log(this.length)
         this.commodities = data;
       });
   }
