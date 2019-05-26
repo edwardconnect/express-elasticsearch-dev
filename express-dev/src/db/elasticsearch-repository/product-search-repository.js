@@ -45,7 +45,8 @@ export class ProductSearchRepository {
                 query: {
                     multi_match: {
                         "query": queryString,
-                        "fields": ["name", "description", "tags"]
+                        "fields": ["name", "description", "tags"],
+                        "type": "phrase_prefix",
                     }
                 }
             }
@@ -55,7 +56,7 @@ export class ProductSearchRepository {
     findAllProducts(pageable) {
         return esClient.search({
             index: this.indexName,
-            filterPath: ['hits.hits._source', 'hits.total'],
+            filterPath: [],
             body: {
                 from: pageable.page,
                 size: pageable.size
