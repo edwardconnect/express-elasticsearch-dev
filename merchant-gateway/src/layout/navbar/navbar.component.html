@@ -1,0 +1,5 @@
+<mat-toolbar color="primary">
+    <div class="container">
+        <button *ngFor="let item of navbarItems" mat-button class="text-white" (click)="changeRoute(item.routerLink)">{{item.name}}</button>
+    </div>
+</mat-toolbar>

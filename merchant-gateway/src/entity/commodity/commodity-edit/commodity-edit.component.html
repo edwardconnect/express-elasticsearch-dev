@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Create</h1>
+<div>
+  <!-- Name -->
+  <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="commodity.name">
+  </mat-form-field>
+  <!-- Description -->
+  <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Description</mat-label>
+    <textarea matInput [(ngModel)]="commodity.description" name="description" id="" cols="30" rows="5"></textarea>
+  </mat-form-field>
+  <!-- Tags -->
+  <mat-form-field appearance="outline" class="d-block">
+      <mat-chip-list #chipList>
+          <mat-chip
+            *ngFor="let tag of commodity.tags"
+            [selectable]="selectable"
+            [removable]="true"
+            (removed)="removeChip(tag)">
+            {{tag}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="New fruit..."
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+  </mat-form-field>
+  <!-- Publish -->
+  <mat-slide-toggle [(ngModel)]="commodity.isPublished">
+    Publish
+  </mat-slide-toggle>
+</div>
+<div mat-dialog-actions style="justify-content: flex-end;">
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="commodity" cdkFocusInitial>Ok</button>
+</div>
