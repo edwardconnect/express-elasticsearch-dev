@@ -29,21 +29,21 @@ router.post('/', async (req, res, next) => {
 /**
  * PUT /product - Update product
  */
-router.put('/', async (req, res, next) => {
-    console.log('REST request to update product')
+// router.put('/', async (req, res, next) => {
+//     console.log('REST request to update product')
 
-    const product = new Product(req.body);
-    try {
-        const mongoResult = await product.save();
-        await productSearchRepository.addProductDocument(mongoResult);
-        await productSearchRepository.refreshIndex();
-        console.log(`Update product ${product.name} success`)
-        res.status(200).send(mongoResult)
-    } catch (error) {
-        console.log('Error', error)
-        res.status(400).send(error);
-    }
-})
+//     const product = new Product(req.body);
+//     try {
+//         const mongoResult = await product.save();
+//         await productSearchRepository.addProductDocument(mongoResult);
+//         await productSearchRepository.refreshIndex();
+//         console.log(`Update product ${product.name} success`)
+//         res.status(200).send(mongoResult)
+//     } catch (error) {
+//         console.log('Error', error)
+//         res.status(400).send(error);
+//     }
+// })
 
 /**
  * GET /product/elasticsearch - Search products by query string
