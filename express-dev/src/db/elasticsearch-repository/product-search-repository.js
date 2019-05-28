@@ -56,7 +56,7 @@ export class ProductSearchRepository {
     findAllProducts(pageable) {
         return esClient.search({
             index: this.indexName,
-            filterPath: [],
+            filterPath: ['hits.hits._source', 'hits.total'],
             body: {
                 from: pageable.page,
                 size: pageable.size
